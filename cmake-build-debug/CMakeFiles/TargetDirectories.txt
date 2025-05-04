@@ -1,0 +1,3 @@
+C:/Users/isara/OneDrive/UNIVERSIDAD/POO/proyectofinalPOO/cmake-build-debug/CMakeFiles/proyectofinalPOO.dir
+C:/Users/isara/OneDrive/UNIVERSIDAD/POO/proyectofinalPOO/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/isara/OneDrive/UNIVERSIDAD/POO/proyectofinalPOO/cmake-build-debug/CMakeFiles/rebuild_cache.dir

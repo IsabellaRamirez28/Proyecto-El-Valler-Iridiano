@@ -1,6 +1,10 @@
 # Proyecto El Valle Iridiano
 ## 📘 Descripción del proyecto:
-Valle Iridiano es un proyecto de simulación en C++ que representa un ecosistema dinámico donde criaturas con diversas habilidades interactúan en un mapa dividido en zonas específicas (pasto, desierto y agua). El objetivo principal del juego es observar cómo las criaturas se desplazan y ocupan el espacio de manera aleatoria, destacando las características particulares de cada tipo de criatura. A través de la interacción entre diferentes especies, se exploran dinámicas de supervivencia y ocupación de territorio.
+**Simulador de Entorno con Criaturas Inteligentes** es una aplicación en C++ que modela un entorno dinámico poblado por diversas criaturas con comportamientos definidos. El entorno se representa como una matriz de celdas (mapa), donde las criaturas pueden moverse, interactuar entre sí y realizar acciones específicas según su tipo.
+
+Cada criatura pertenece a una subclase que define su comportamiento: algunas son agresivas, otras defensivas, y otras tienen habilidades especiales como volar o regenerarse. El sistema permite agregar criaturas al entorno, simular su movimiento aleatorio, realizar ataques, y almacenar información en formato JSON.
+
+El objetivo principal es ofrecer una base modular y extensible para simular inteligencia simple en entornos gráficos o lógicos, sirviendo como herramienta educativa o base para futuros desarrollos en simulación o videojuegos.
 ## 🧑‍💻 Manual del usuario:
 ### Interfaz del juego
 - **El juego se desarrolla en una cuadrícula de 10x10 donde las criaturas se mueven y interactúan, el mapa incluye:**

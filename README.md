@@ -107,6 +107,18 @@ Metamorfita --|> Criatura
 ```
     
 ## 🗂️ Estructura del código fuente:
+### 🔑 Módulos y Clases Clave
+- Entorno: Clase principal que maneja el mapa, las criaturas y su interacción. Controla el ciclo de vida de cada     criatura     y los eventos del sistema.
+- Mapa: Representa una celda individual del entorno. Contiene una lista de criaturas presentes en esa ubicación.
+- Criatura (clase abstracta): Define una interfaz común para todas las criaturas. Contiene atributos como nombre, reino,     energía, y posición.
+- Subclases de Criatura:
+    - Albo: Criatura con atributos de ataque, defensa y vuelo.
+    - Centella: Criatura enfocada en ataques.
+    - Raiz: Criatura especializada en regeneración o crecimiento (por ejemplo, con tasa de interés).
+    - Metamorfita: Criatura con énfasis en defensa.
+### ✅ Dependencias
+- nlohmann/json (presumido): Para la serialización de datos en formato JSON (guardar y cargar datos del entorno).
+- Standard Template Library (STL): Uso extensivo de vector, string, pair, entre otros.
 ## 👥 Créditos y roles del equipo:
 ### - Intgrantes:
 - Isabella Ramirez Echeverry

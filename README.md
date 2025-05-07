@@ -11,7 +11,7 @@ El objetivo principal es ofrecer una base modular y extensible para simular inte
     - Zona de pasto: Representada por (.)
     - Zona de desierto: Representada por (_)
     - Zona de agua: Representada por (~)
-- Las criaturas se representan mediante los caracteres A, B y C.
+- Las criaturas se representan mediante los caracteres R, A, C y M.
 
 ## Clases Principales
 - Criatura: Clase base que define los atributos comunes a todas las criaturas (nombre, reino, energía, posición)

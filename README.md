@@ -47,3 +47,8 @@ El objetivo principal es ofrecer una base modular y extensible para simular inte
     - Manual del usuario: Juan Manuel Ramirez
     - Estructura del codigo fuente: Isabella Ramirez
     - Creditos y roles del equipo: Juan Manuel Ramirez
+
+### 🙏 Agradecimientos:
+- Queremos expresar nuestro sincero agradecimiento al **Prof. Profesorcito** por su dedicación, paciencia y compromiso durante todo el semestre en la materia de **Programación Orientada a Objetos.**
+- Gracias a sus enseñanzas, pudimos comprender y aplicar los principios fundamentales de la programación modular, la herencia, el polimorfismo y el diseño orientado a objetos.
+- Este proyecto es reflejo del conocimiento adquirido en clase y del acompañamiento constante que recibimos. ¡Gracias por guiarnos y motivarnos a mejorar cada día!**

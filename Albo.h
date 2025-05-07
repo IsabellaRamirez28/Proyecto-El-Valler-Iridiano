@@ -10,11 +10,11 @@
 
 class Albo : public Metamorfita, public Centella {
 public:
-    Albo(const string &nombre, const string &reino, int energia, int posicion_x, int posicion_y,
+    Albo(const string &nombre, const string &reino, int energia, const pair<int, int> &pos,
      int poder_de_ataque, const int &defensas, const int &poder_volador)
-    : Criatura(nombre, reino, energia, posicion_x, posicion_y),
-      Metamorfita(nombre, reino, energia, posicion_x, posicion_y, defensas),
-      Centella(nombre, reino, energia, posicion_x, posicion_y, poder_de_ataque),
+    : Criatura(nombre, reino, energia, pos),
+      Metamorfita(nombre, reino, energia, pos, defensas),
+      Centella(nombre, reino, energia, pos, poder_de_ataque),
       poderVolador(poder_volador) {
     }
 
@@ -31,13 +31,22 @@ public:
             cout << energia << endl;
         }
     }
+
+    void mostrarCriaturas() const override {
+        cout << "Nombre: " << nombre << endl;
+        cout << "Reino: " << reino << endl;
+        cout << "Energía: " << energia << endl;
+        cout << "PoderVolador: " << poderVolador << endl;
+    }
+
     json toJson() const override {
         return json{{"nombre", nombre},
         {"reino", reino},
         {"energía", energia},
-        {"posicion X", posicionX},
-        {"posicion Y", posicionY},
-        {"poder Volador", poderVolador}};
+        {"posicion", posicion},
+        {"poder Volador", poderVolador},
+        {"defensa", getDefensas()},
+        {"poder de ataque", getPoderDeAtaque()}};
     }
 
 private:

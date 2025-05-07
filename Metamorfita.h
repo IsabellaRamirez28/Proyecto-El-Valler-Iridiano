@@ -9,11 +9,11 @@
 
 class Metamorfita : public virtual Criatura{
 public:
-    Metamorfita(const string &nombre, const string &reino, int energia, int posicion_x, int posicion_y,
-        const int &defensas)
-        : Criatura(nombre, reino, energia, posicion_x, posicion_y),
+    Metamorfita(const string &nombre, const string &reino, int energia, const pair<int, int> &pos, int defensas)
+        : Criatura(nombre, reino, energia, pos),
           defensas(defensas) {
     }
+
     int getDefensas() const {
         return defensas;
     }
@@ -31,9 +31,14 @@ public:
         return json{{"nombre", nombre},
         {"reino", reino},
         {"energía", energia},
-        {"posicion X", posicionX},
-        {"posicion Y", posicionY},
+        {"posicion", posicion},
         {"defensas", defensas}};
+    }
+    void mostrarCriaturas() const override {
+        cout << "Nombre: " << nombre << endl;
+        cout << "Reino: " << reino << endl;
+        cout << "Energía: " << energia << endl;
+        cout << "Defensas: " << defensas << endl;
     }
 
 private:

@@ -1,82 +1,3 @@
-
-
-// === Comienzo de Albo.cpp ===
-
-//
-// Created by isara on 4/05/2025.
-//
-
-#include "Albo.h"
-
-// === Fin de Albo.cpp ===
-
-
-// === Comienzo de Centella.cpp ===
-
-//
-// Created by isara on 4/05/2025.
-//
-
-#include "Centella.h"
-
-// === Fin de Centella.cpp ===
-
-
-// === Comienzo de Criatura.cpp ===
-
-//
-// Created by isara on 4/05/2025.
-//
-
-#include "Criatura.h"
-
-// === Fin de Criatura.cpp ===
-
-
-// === Comienzo de Entorno.cpp ===
-
-//
-// Created by isara on 4/05/2025.
-//
-
-#include "Entorno.h"
-
-// === Fin de Entorno.cpp ===
-
-
-// === Comienzo de Mapa.cpp ===
-
-//
-// Created by isara on 7/05/2025.
-//
-
-#include "Mapa.h"
-
-// === Fin de Mapa.cpp ===
-
-
-// === Comienzo de Metamorfita.cpp ===
-
-//
-// Created by isara on 4/05/2025.
-//
-
-#include "Metamorfita.h"
-
-// === Fin de Metamorfita.cpp ===
-
-
-// === Comienzo de Raiz.cpp ===
-
-//
-// Created by isara on 4/05/2025.
-//
-
-#include "Raiz.h"
-
-// === Fin de Raiz.cpp ===
-
-
 // === Comienzo de main.cpp ===
 
 #include <iostream>
@@ -175,11 +96,11 @@ int main() {
 
 class Albo : public Metamorfita, public Centella {
 public:
-    Albo(const string &nombre, const string &reino, int energia, int posicion_x, int posicion_y,
+    Albo(const string &nombre, const string &reino, int energia, const pair<int, int> &pos,
      int poder_de_ataque, const int &defensas, const int &poder_volador)
-    : Criatura(nombre, reino, energia, posicion_x, posicion_y),
-      Metamorfita(nombre, reino, energia, posicion_x, posicion_y, defensas),
-      Centella(nombre, reino, energia, posicion_x, posicion_y, poder_de_ataque),
+    : Criatura(nombre, reino, energia, pos),
+      Metamorfita(nombre, reino, energia, pos, defensas),
+      Centella(nombre, reino, energia, pos, poder_de_ataque),
       poderVolador(poder_volador) {
     }
 
@@ -200,8 +121,7 @@ public:
         return json{{"nombre", nombre},
         {"reino", reino},
         {"energía", energia},
-        {"posicion X", posicionX},
-        {"posicion Y", posicionY},
+        {"posicion", posicion},
         {"poder Volador", poderVolador}};
     }
 
@@ -230,11 +150,11 @@ private:
 
 class Centella : public virtual Criatura {
 public:
-    Centella(const string &nombre, const string &reino, int energia, int posicion_x, int posicion_y,
-        int poder_de_ataque)
-        : Criatura(nombre, reino, energia, posicion_x, posicion_y),
+    Centella(const string &nombre, const string &reino, int energia, const pair<int, int> &pos, int poder_de_ataque)
+        : Criatura(nombre, reino, energia, pos),
           poderDeAtaque(poder_de_ataque) {
     }
+
     int getPoderDeAtaque() const {
         return poderDeAtaque;
     }
@@ -252,8 +172,7 @@ public:
         return json{{"nombre", nombre},
         {"reino", reino},
         {"energía", energia},
-        {"posicion X", posicionX},
-        {"posicion Y", posicionY},
+        {"posicion", posicion},
         {"poder de Ataque", poderDeAtaque}};
     }
 
@@ -286,13 +205,11 @@ using json = nlohmann::json;
 
 class Criatura {
 public:
-    Criatura(const string &nombre, const string &reino, int energia, int posicion_x, int posicion_y)
+    Criatura(const string &nombre, const string &reino, int energia, pair<int, int> pos)
         : nombre(nombre),
           reino(reino),
           energia(energia),
-          posicionX(posicion_x),
-          posicionY(posicion_y) {
-    }
+          posicion(pos) {}
     string getNombre() {
         return nombre;
     }
@@ -302,34 +219,27 @@ public:
     int getEnergia() {
         return energia;
     }
-    pair<int, int> getPosicion() {
-        return make_pair(posicionX, posicionY);
+    pair<int, int> getPosicion() const {
+        return posicion;
+    }
+    void setPosicion(pair<int, int> nuevaPos) {
+        posicion = nuevaPos;
     }
     virtual void recibirAtaque (const int &dano) = 0;
 
-    int moverse () {
 
-    }
-    int recibirEnergia () {
-
-    }
-    int mutar () {
-
-    }
     virtual json toJson() const {
         return json{{"nombre", nombre},
         {"reino", reino},
         {"energía", energia},
-        {"posicion X", posicionX},
-        {"posicion Y", posicionY}};
+        {"posicion", posicion}};
     }
 
 protected:
     string nombre;
     string reino;
     int energia;
-    int posicionX;
-    int posicionY;
+    pair<int, int> posicion;
 
 };
 
@@ -353,7 +263,7 @@ protected:
 #include <fstream>
 #include <vector>
 #include <string>
-
+#include "Mapa.h"
 #include "Albo.h"
 #include "Centella.h"
 #include "Criatura.h"
@@ -363,14 +273,53 @@ using namespace std;
 
 class Entorno {
 public:
-    Entorno(const string &nombre_entorno)
-        : nombreEntorno(nombre_entorno) {
+    Entorno(const string &nombre_entorno, int filas, int columnas)
+        : nombreEntorno(nombre_entorno),
+          filas(filas),
+          columnas(columnas) {
+        mapa.resize(filas, vector<Mapa>(columnas, Mapa(0, 0)));
+        for (int i = 0; i < filas; ++i)
+            for (int j = 0; j < columnas; ++j)
+                mapa[i][j] = Mapa(i, j);
+
+        srand(time(0));
     }
+
     string getNombreEntorno() {
         return nombreEntorno;
     }
+    void mostrarmapa() const {
+        for (int i = 0; i < filas; ++i) {
+            for (int j = 0; j < columnas; ++j) {
+                const vector<Criatura*>& criaturas = mapa[i][j].getCriaturas();
+                if (!criaturas.empty()) {
+                    cout << criaturas[0]->getNombre()[0] << " ";
+                } else {
+                    cout << ". ";
+                }
+            }
+            cout << endl;
+        }
+    }
+    void moverCriaturas() {
+        for (Criatura* criatura : criaturas) {
+            pair<int, int> pos = criatura->getPosicion();
+            int x = pos.first;
+            int y = pos.second;
+
+            int dx = rand() % 3 - 1;
+            int dy = rand() % 3 - 1;
+            int nuevaX = max(0, min(filas - 1, x + dx));
+            int nuevaY = max(0, min(columnas - 1, y + dy));
+
+            mapa[x][y].eliminarCriatura(criatura);
+            mapa[nuevaX][nuevaY].agregarCriatura(criatura);
+            criatura->setPosicion({nuevaX, nuevaY});
+        }
+    }
+
     void agregarCriaturaRaiz(string nombreRa, string reinoRa) {
-        criaturas.push_back(new Raiz(nombreRa, reinoRa, energia, tasaInteres, ));
+        criaturas.push_back(new Raiz(nombreRa, reinoRa, energia, tasaInteres));
     }
 
     void agregarCriaturaCentella(string nombreCent, string reinoCent) {
@@ -385,8 +334,6 @@ public:
         criaturas.push_back(new Albo(nombreAlb, reinoAlb, energia, tasaInteres));
     }
 
-    void mostrarmapa();
-
     void guardarDatos(const string& archivo) {
         json j;
         j["Nombre"] = nombreEntorno;
@@ -399,8 +346,6 @@ public:
         file.close();
     }
 
-    void moverCriaturas();
-
     void atacaCriatura(string criaAtacante, string criaVictima, int poderAtaque) {
         for (Criatura *criaturita : criaturas) {
             if (criaturita -> getNombre() == criaVictima) {
@@ -409,14 +354,16 @@ public:
         }
     }
 
+    void mostrarCriaturas() {
+
+    }
+
 private:
     string nombreEntorno;
+    int filas, columnas;
     vector<Criatura*> criaturas;
+    vector<vector<Mapa>> mapa;
     int energia = 100;
-    int filas = 10;
-    int columnas = 10;
-    int posicionCriaturaX;
-    int posicionCriaturaY;
 };
 
 
@@ -434,13 +381,38 @@ private:
 
 #ifndef MAPA_H
 #define MAPA_H
+#include <vector>
+#include "Criatura.h"
 
+using namespace std;
 
 
 class Mapa {
+public:
+    Mapa(int x, int y)
+        : x(x),
+          y(y) {
+
+    }
+    int getX() const {
+        return x;
+    }
+    int getY() const {
+        return y;
+    }
+    void agregarCriatura(Criatura* criatura) {
+        criaturas.push_back(criatura);
+    }
+    void eliminarCriatura(Criatura* criatura) {
+        criaturas.erase(remove(criaturas.begin(), criaturas.end(), criatura), criaturas.end());
+    }
+    const vector<Criatura*>& getCriaturas() const {
+        return criaturas;
+    }
+
 private:
-    int filas;
-    int columnas;
+    int x, y;
+    vector<Criatura*> criaturas;
 
 };
 
@@ -464,11 +436,11 @@ private:
 
 class Metamorfita : public virtual Criatura{
 public:
-    Metamorfita(const string &nombre, const string &reino, int energia, int posicion_x, int posicion_y,
-        const int &defensas)
-        : Criatura(nombre, reino, energia, posicion_x, posicion_y),
+    Metamorfita(const string &nombre, const string &reino, int energia, const pair<int, int> &pos, int defensas)
+        : Criatura(nombre, reino, energia, pos),
           defensas(defensas) {
     }
+
     int getDefensas() const {
         return defensas;
     }
@@ -486,8 +458,7 @@ public:
         return json{{"nombre", nombre},
         {"reino", reino},
         {"energía", energia},
-        {"posicion X", posicionX},
-        {"posicion Y", posicionY},
+        {"posicion", posicion},
         {"defensas", defensas}};
     }
 
@@ -516,11 +487,11 @@ private:
 
 class Raiz : public Criatura {
 public:
-    Raiz(const string &nombre, const string &reino, int energia, int posicion_x, int posicion_y,
-        int poder_de_reproduccion)
-        : Criatura(nombre, reino, energia, posicion_x, posicion_y),
+    Raiz(const string &nombre, const string &reino, int energia, const pair<int, int> &pos, int poder_de_reproduccion)
+        : Criatura(nombre, reino, energia, pos),
           poderDeReproduccion(poder_de_reproduccion) {
     }
+
     int getPoderDeReproduccion() const {
         return poderDeReproduccion;
     }
@@ -537,8 +508,7 @@ public:
         return json{{"nombre", nombre},
         {"reino", reino},
         {"energía", energia},
-        {"posicion X", posicionX},
-        {"posicion Y", posicionY},
+        {"posicion X", posicion},
         {"poder de reproduccion", poderDeReproduccion}};
     }
 

@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-    Entorno entorno("El Valle Iridiano ");
+    Entorno entorno("El Valle Iridiano", 10, 10);
     int opcion, opcionAcciones, fuerzaAtaque;
     string energía, nombreCentella, nombreRaiz, nombreMetamorfita, nombreAlbo, atacante, victima;
     string reinoRaiz = "Raiz";
@@ -15,8 +15,7 @@ int main() {
     do {
         cout << "=========MENU========" << endl;
         cout << "1. INICIAR CICLO" << endl;
-        cout << "2. CARGAR" << endl;
-        cout << "3. SALIR DEL SISTEMA" << endl;
+        cout << "2. SALIR DEL SISTEMA" << endl;
         cout << "ELIGE UNA OPCION: ";
         cin >> opcion;
         switch (opcion) {
@@ -36,10 +35,11 @@ int main() {
                 entorno.agregarCriaturaCentella(nombreCentella, reinoCentella);
                 entorno.agregarCriaturaMetamorfita(nombreMetamorfita, reinoMetamorfita);
                 entorno.agregarCriaturaAlbo(nombreAlbo, reinoAlbo);
+                entorno.mostrarCriaturas();
 
                 entorno.mostrarmapa();
 
-                for (int i = 0; i < 15; ++i) {
+                for (int i = 0; i < 5; ++i) {
                     cout << "==============ESCOGE LA OPCION QUE DESEES==============" << endl;
                     cout << "========= CICLO #" << (i + 1) << " =========" << endl;
                     cout << "1. Mover Criaturas" << endl;
@@ -62,6 +62,7 @@ int main() {
                 cout << "========SALIR DEL JUEGO========" << endl;
                 entorno.guardarDatos("../valleIridiano.json");
                 cout << "DATOS GUARDADOS" << endl;
+                break;
             }
             default: cout << "OPCION INVALIDA" << endl; break;
         }

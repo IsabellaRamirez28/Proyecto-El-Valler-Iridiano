@@ -35,21 +35,13 @@ public:
     }
     virtual void recibirAtaque (const int &dano) = 0;
 
-    int moverse () {
+    virtual void mostrarCriaturas() const = 0;
 
-    }
-    int recibirEnergia () {
-
-    }
-    int mutar () {
-
-    }
     virtual json toJson() const {
         return json{{"nombre", nombre},
         {"reino", reino},
         {"energía", energia},
-        {"posicion X", posicionX},
-        {"posicion Y", posicionY}};
+        {"posicion", posicion}};
     }
 
 protected:

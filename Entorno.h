@@ -64,20 +64,37 @@ public:
         }
     }
 
-    void agregarCriaturaRaiz(string nombreRa, string reinoRa) {
-        criaturas.push_back(new Raiz(nombreRa, reinoRa, energia, tasaInteres, ));
+    pair<int, int> generarPosicionAleatoria() {
+        return {rand() % filas, rand() % columnas};
     }
 
-    void agregarCriaturaCentella(string nombreCent, string reinoCent) {
-        criaturas.push_back(new Centella(nombreCent, reinoCent, energia, tasaInteres));
+
+    void agregarCriaturaRaiz(const string &nombreRa, const string &reinoRa) {
+        pair<int, int> pos = generarPosicionAleatoria();
+        Criatura* nueva = new Raiz(nombreRa, reinoRa, energia, pos, 5); // 5 = tasaInteres ejemplo
+        criaturas.push_back(nueva);
+        mapa[pos.first][pos.second].agregarCriatura(nueva);
     }
 
-    void agregarCriaturaMetamorfita(string nombreMeta, string reinoMeta) {
-        criaturas.push_back(new Metamorfita(nombreMeta, reinoMeta, energia, tasaInteres));
+    void agregarCriaturaCentella(const string &nombreCent, const string &reinoCent) {
+        pair<int, int> pos = generarPosicionAleatoria();
+        Criatura* nueva = new Centella(nombreCent, reinoCent, energia, pos, 2); // 2 = poderDeAtaque ejemplo
+        criaturas.push_back(nueva);
+        mapa[pos.first][pos.second].agregarCriatura(nueva);
     }
 
-    void agregarCriaturaAlbo(string nombreAlb, string reinoAlb) {
-        criaturas.push_back(new Albo(nombreAlb, reinoAlb, energia, tasaInteres));
+    void agregarCriaturaMetamorfita(const string &nombreMeta, const string &reinoMeta) {
+        pair<int, int> pos = generarPosicionAleatoria();
+        Criatura* nueva = new Metamorfita(nombreMeta, reinoMeta, energia, pos, 5); // 5 = defensas ejemplo
+        criaturas.push_back(nueva);
+        mapa[pos.first][pos.second].agregarCriatura(nueva);
+    }
+
+    void agregarCriaturaAlbo(const string &nombreAlb, const string &reinoAlb) {
+        pair<int, int> pos = generarPosicionAleatoria();
+        Criatura* nueva = new Albo(nombreAlb, reinoAlb, energia, pos, 2, 5, 10); // poderAtaque, defensas, poderVolador
+        criaturas.push_back(nueva);
+        mapa[pos.first][pos.second].agregarCriatura(nueva);
     }
 
     void guardarDatos(const string& archivo) {
@@ -101,7 +118,9 @@ public:
     }
 
     void mostrarCriaturas() {
-
+        for (const auto &criatura : criaturas) {
+            criatura->mostrarCriaturas();
+        }
     }
 
 private:

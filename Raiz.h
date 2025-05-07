@@ -9,11 +9,11 @@
 
 class Raiz : public Criatura {
 public:
-    Raiz(const string &nombre, const string &reino, int energia, int posicion_x, int posicion_y,
-        int poder_de_reproduccion)
-        : Criatura(nombre, reino, energia, posicion_x, posicion_y),
+    Raiz(const string &nombre, const string &reino, int energia, const pair<int, int> &pos, int poder_de_reproduccion)
+        : Criatura(nombre, reino, energia, pos),
           poderDeReproduccion(poder_de_reproduccion) {
     }
+
     int getPoderDeReproduccion() const {
         return poderDeReproduccion;
     }
@@ -26,17 +26,22 @@ public:
             cout << energia << endl;
         }
     }
+    void mostrarCriaturas() const override {
+        cout << "Nombre: " << nombre << endl;
+        cout << "Reino: " << reino << endl;
+        cout << "Energía: " << energia << endl;
+        cout << "Poder de Reproduccion: " << poderDeReproduccion << endl;
+    }
     json toJson() const override {
         return json{{"nombre", nombre},
         {"reino", reino},
         {"energía", energia},
-        {"posicion X", posicionX},
-        {"posicion Y", posicionY},
+        {"posicion", posicion},
         {"poder de reproduccion", poderDeReproduccion}};
     }
 
 private:
-    int poderDeReproduccion;
+    int poderDeReproduccion = 3;
 
 };
 

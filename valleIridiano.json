@@ -1,0 +1,47 @@
+{
+    "Criaturas": [
+        {
+            "energía": 100,
+            "nombre": "sara",
+            "poder de reproduccion": 5,
+            "posicion": [
+                5,
+                6
+            ],
+            "reino": "Raiz"
+        },
+        {
+            "energía": 0,
+            "nombre": "isa",
+            "poder de Ataque": 2,
+            "posicion": [
+                6,
+                3
+            ],
+            "reino": "Chispa"
+        },
+        {
+            "defensas": 5,
+            "energía": 100,
+            "nombre": "luis",
+            "posicion": [
+                3,
+                8
+            ],
+            "reino": "Cambio"
+        },
+        {
+            "defensa": 5,
+            "energía": 100,
+            "nombre": "juan",
+            "poder Volador": 10,
+            "poder de ataque": 2,
+            "posicion": [
+                7,
+                5
+            ],
+            "reino": "Chiscambio"
+        }
+    ],
+    "Nombre": "El Valle Iridiano"
+}

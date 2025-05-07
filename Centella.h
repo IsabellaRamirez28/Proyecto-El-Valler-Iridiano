@@ -9,11 +9,11 @@
 
 class Centella : public virtual Criatura {
 public:
-    Centella(const string &nombre, const string &reino, int energia, int posicion_x, int posicion_y,
-        int poder_de_ataque)
-        : Criatura(nombre, reino, energia, posicion_x, posicion_y),
+    Centella(const string &nombre, const string &reino, int energia, const pair<int, int> &pos, int poder_de_ataque)
+        : Criatura(nombre, reino, energia, pos),
           poderDeAtaque(poder_de_ataque) {
     }
+
     int getPoderDeAtaque() const {
         return poderDeAtaque;
     }
@@ -27,12 +27,19 @@ public:
             cout << energia << endl;
         }
     }
+
+    void mostrarCriaturas() const override {
+        cout << "Nombre: " << nombre << endl;
+        cout << "Reino: " << reino << endl;
+        cout << "Energía: " << energia << endl;
+        cout << "Poder de Ataque: " << poderDeAtaque << endl;
+    }
+
     json toJson() const override {
         return json{{"nombre", nombre},
         {"reino", reino},
         {"energía", energia},
-        {"posicion X", posicionX},
-        {"posicion Y", posicionY},
+        {"posicion", posicion},
         {"poder de Ataque", poderDeAtaque}};
     }
 

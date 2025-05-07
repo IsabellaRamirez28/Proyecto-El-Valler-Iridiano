@@ -39,9 +39,27 @@ public:
             for (int j = 0; j < columnas; ++j) {
                 const vector<Criatura*>& criaturas = mapa[i][j].getCriaturas();
                 if (!criaturas.empty()) {
-                    cout << criaturas[0]->getNombre()[0] << " ";
+                    Criatura* c = criaturas[0];
+                    // Identifica el tipo real y muestra la letra correspondiente
+                    if (dynamic_cast<Albo*>(c)) {
+                        cout << "A ";
+                    } else if (dynamic_cast<Centella*>(c) && !dynamic_cast<Albo*>(c)) {
+                        cout << "C ";
+                    } else if (dynamic_cast<Metamorfita*>(c) && !dynamic_cast<Albo*>(c)) {
+                        cout << "M ";
+                    } else if (dynamic_cast<Raiz*>(c)) {
+                        cout << "R ";
+                    } else {
+                        cout << "? ";  // Por si acaso
+                    }
                 } else {
-                    cout << ". ";
+                    if (i < 4) {
+                        cout << ". ";
+                    } else if (i < 7) {
+                        cout << "_ ";
+                    } else {
+                        cout << "~ ";
+                    }
                 }
             }
             cout << endl;

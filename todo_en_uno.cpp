@@ -1,3 +1,82 @@
+
+
+// === Comienzo de Albo.cpp ===
+
+//
+// Created by isara on 4/05/2025.
+//
+
+#include "Albo.h"
+
+// === Fin de Albo.cpp ===
+
+
+// === Comienzo de Centella.cpp ===
+
+//
+// Created by isara on 4/05/2025.
+//
+
+#include "Centella.h"
+
+// === Fin de Centella.cpp ===
+
+
+// === Comienzo de Criatura.cpp ===
+
+//
+// Created by isara on 4/05/2025.
+//
+
+#include "Criatura.h"
+
+// === Fin de Criatura.cpp ===
+
+
+// === Comienzo de Entorno.cpp ===
+
+//
+// Created by isara on 4/05/2025.
+//
+
+#include "Entorno.h"
+
+// === Fin de Entorno.cpp ===
+
+
+// === Comienzo de Mapa.cpp ===
+
+//
+// Created by isara on 7/05/2025.
+//
+
+#include "Mapa.h"
+
+// === Fin de Mapa.cpp ===
+
+
+// === Comienzo de Metamorfita.cpp ===
+
+//
+// Created by isara on 4/05/2025.
+//
+
+#include "Metamorfita.h"
+
+// === Fin de Metamorfita.cpp ===
+
+
+// === Comienzo de Raiz.cpp ===
+
+//
+// Created by isara on 4/05/2025.
+//
+
+#include "Raiz.h"
+
+// === Fin de Raiz.cpp ===
+
+
 // === Comienzo de main.cpp ===
 
 #include <iostream>
@@ -6,7 +85,7 @@
 using namespace std;
 
 int main() {
-    Entorno entorno("El Valle Iridiano ");
+    Entorno entorno("El Valle Iridiano", 10, 10);
     int opcion, opcionAcciones, fuerzaAtaque;
     string energía, nombreCentella, nombreRaiz, nombreMetamorfita, nombreAlbo, atacante, victima;
     string reinoRaiz = "Raiz";
@@ -17,8 +96,7 @@ int main() {
     do {
         cout << "=========MENU========" << endl;
         cout << "1. INICIAR CICLO" << endl;
-        cout << "2. CARGAR" << endl;
-        cout << "3. SALIR DEL SISTEMA" << endl;
+        cout << "2. SALIR DEL SISTEMA" << endl;
         cout << "ELIGE UNA OPCION: ";
         cin >> opcion;
         switch (opcion) {
@@ -38,10 +116,11 @@ int main() {
                 entorno.agregarCriaturaCentella(nombreCentella, reinoCentella);
                 entorno.agregarCriaturaMetamorfita(nombreMetamorfita, reinoMetamorfita);
                 entorno.agregarCriaturaAlbo(nombreAlbo, reinoAlbo);
+                entorno.mostrarCriaturas();
 
                 entorno.mostrarmapa();
 
-                for (int i = 0; i < 15; ++i) {
+                for (int i = 0; i < 5; ++i) {
                     cout << "==============ESCOGE LA OPCION QUE DESEES==============" << endl;
                     cout << "========= CICLO #" << (i + 1) << " =========" << endl;
                     cout << "1. Mover Criaturas" << endl;
@@ -64,6 +143,7 @@ int main() {
                 cout << "========SALIR DEL JUEGO========" << endl;
                 entorno.guardarDatos("../valleIridiano.json");
                 cout << "DATOS GUARDADOS" << endl;
+                break;
             }
             default: cout << "OPCION INVALIDA" << endl; break;
         }
@@ -117,12 +197,22 @@ public:
             cout << energia << endl;
         }
     }
+
+    void mostrarCriaturas() const override {
+        cout << "Nombre: " << nombre << endl;
+        cout << "Reino: " << reino << endl;
+        cout << "Energía: " << energia << endl;
+        cout << "PoderVolador: " << poderVolador << endl;
+    }
+
     json toJson() const override {
         return json{{"nombre", nombre},
         {"reino", reino},
         {"energía", energia},
         {"posicion", posicion},
-        {"poder Volador", poderVolador}};
+        {"poder Volador", poderVolador},
+        {"defensa", getDefensas()},
+        {"poder de ataque", getPoderDeAtaque()}};
     }
 
 private:
@@ -168,6 +258,14 @@ public:
             cout << energia << endl;
         }
     }
+
+    void mostrarCriaturas() const override {
+        cout << "Nombre: " << nombre << endl;
+        cout << "Reino: " << reino << endl;
+        cout << "Energía: " << energia << endl;
+        cout << "Poder de Ataque: " << poderDeAtaque << endl;
+    }
+
     json toJson() const override {
         return json{{"nombre", nombre},
         {"reino", reino},
@@ -227,6 +325,7 @@ public:
     }
     virtual void recibirAtaque (const int &dano) = 0;
 
+    virtual void mostrarCriaturas() const = 0;
 
     virtual json toJson() const {
         return json{{"nombre", nombre},
@@ -293,7 +392,20 @@ public:
             for (int j = 0; j < columnas; ++j) {
                 const vector<Criatura*>& criaturas = mapa[i][j].getCriaturas();
                 if (!criaturas.empty()) {
-                    cout << criaturas[0]->getNombre()[0] << " ";
+                    Criatura* c = criaturas[0];
+
+                    // Identifica el tipo real y muestra la letra correspondiente
+                    if (dynamic_cast<Albo*>(c)) {
+                        cout << "A ";
+                    } else if (dynamic_cast<Centella*>(c) && !dynamic_cast<Albo*>(c)) {
+                        cout << "C ";
+                    } else if (dynamic_cast<Metamorfita*>(c) && !dynamic_cast<Albo*>(c)) {
+                        cout << "M ";
+                    } else if (dynamic_cast<Raiz*>(c)) {
+                        cout << "R ";
+                    } else {
+                        cout << "? ";  // Por si acaso
+                    }
                 } else {
                     cout << ". ";
                 }
@@ -318,20 +430,37 @@ public:
         }
     }
 
-    void agregarCriaturaRaiz(string nombreRa, string reinoRa) {
-        criaturas.push_back(new Raiz(nombreRa, reinoRa, energia, tasaInteres));
+    pair<int, int> generarPosicionAleatoria() {
+        return {rand() % filas, rand() % columnas};
     }
 
-    void agregarCriaturaCentella(string nombreCent, string reinoCent) {
-        criaturas.push_back(new Centella(nombreCent, reinoCent, energia, tasaInteres));
+
+    void agregarCriaturaRaiz(const string &nombreRa, const string &reinoRa) {
+        pair<int, int> pos = generarPosicionAleatoria();
+        Criatura* nueva = new Raiz(nombreRa, reinoRa, energia, pos, 5); // 5 = tasaInteres ejemplo
+        criaturas.push_back(nueva);
+        mapa[pos.first][pos.second].agregarCriatura(nueva);
     }
 
-    void agregarCriaturaMetamorfita(string nombreMeta, string reinoMeta) {
-        criaturas.push_back(new Metamorfita(nombreMeta, reinoMeta, energia, tasaInteres));
+    void agregarCriaturaCentella(const string &nombreCent, const string &reinoCent) {
+        pair<int, int> pos = generarPosicionAleatoria();
+        Criatura* nueva = new Centella(nombreCent, reinoCent, energia, pos, 2); // 2 = poderDeAtaque ejemplo
+        criaturas.push_back(nueva);
+        mapa[pos.first][pos.second].agregarCriatura(nueva);
     }
 
-    void agregarCriaturaAlbo(string nombreAlb, string reinoAlb) {
-        criaturas.push_back(new Albo(nombreAlb, reinoAlb, energia, tasaInteres));
+    void agregarCriaturaMetamorfita(const string &nombreMeta, const string &reinoMeta) {
+        pair<int, int> pos = generarPosicionAleatoria();
+        Criatura* nueva = new Metamorfita(nombreMeta, reinoMeta, energia, pos, 5); // 5 = defensas ejemplo
+        criaturas.push_back(nueva);
+        mapa[pos.first][pos.second].agregarCriatura(nueva);
+    }
+
+    void agregarCriaturaAlbo(const string &nombreAlb, const string &reinoAlb) {
+        pair<int, int> pos = generarPosicionAleatoria();
+        Criatura* nueva = new Albo(nombreAlb, reinoAlb, energia, pos, 2, 5, 10); // poderAtaque, defensas, poderVolador
+        criaturas.push_back(nueva);
+        mapa[pos.first][pos.second].agregarCriatura(nueva);
     }
 
     void guardarDatos(const string& archivo) {
@@ -355,7 +484,9 @@ public:
     }
 
     void mostrarCriaturas() {
-
+        for (const auto &criatura : criaturas) {
+            criatura->mostrarCriaturas();
+        }
     }
 
 private:
@@ -461,6 +592,12 @@ public:
         {"posicion", posicion},
         {"defensas", defensas}};
     }
+    void mostrarCriaturas() const override {
+        cout << "Nombre: " << nombre << endl;
+        cout << "Reino: " << reino << endl;
+        cout << "Energía: " << energia << endl;
+        cout << "Defensas: " << defensas << endl;
+    }
 
 private:
     int defensas = 5;
@@ -504,16 +641,22 @@ public:
             cout << energia << endl;
         }
     }
+    void mostrarCriaturas() const override {
+        cout << "Nombre: " << nombre << endl;
+        cout << "Reino: " << reino << endl;
+        cout << "Energía: " << energia << endl;
+        cout << "Poder de Reproduccion: " << poderDeReproduccion << endl;
+    }
     json toJson() const override {
         return json{{"nombre", nombre},
         {"reino", reino},
         {"energía", energia},
-        {"posicion X", posicion},
+        {"posicion", posicion},
         {"poder de reproduccion", poderDeReproduccion}};
     }
 
 private:
-    int poderDeReproduccion;
+    int poderDeReproduccion = 3;
 
 };
 

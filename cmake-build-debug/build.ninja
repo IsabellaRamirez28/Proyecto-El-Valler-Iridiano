@@ -91,6 +91,12 @@ build CMakeFiles/proyectofinalPOO.dir/Albo.cpp.obj: CXX_COMPILER__proyectofinalP
   OBJECT_DIR = CMakeFiles\proyectofinalPOO.dir
   OBJECT_FILE_DIR = CMakeFiles\proyectofinalPOO.dir
 
+build CMakeFiles/proyectofinalPOO.dir/Mapa.cpp.obj: CXX_COMPILER__proyectofinalPOO_unscanned_Debug C$:/Users/isara/OneDrive/UNIVERSIDAD/POO/proyectofinalPOO/Mapa.cpp || cmake_object_order_depends_target_proyectofinalPOO
+  DEP_FILE = CMakeFiles\proyectofinalPOO.dir\Mapa.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\proyectofinalPOO.dir
+  OBJECT_FILE_DIR = CMakeFiles\proyectofinalPOO.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target proyectofinalPOO
@@ -99,7 +105,7 @@ build CMakeFiles/proyectofinalPOO.dir/Albo.cpp.obj: CXX_COMPILER__proyectofinalP
 #############################################
 # Link the executable proyectofinalPOO.exe
 
-build proyectofinalPOO.exe: CXX_EXECUTABLE_LINKER__proyectofinalPOO_Debug CMakeFiles/proyectofinalPOO.dir/main.cpp.obj CMakeFiles/proyectofinalPOO.dir/Entorno.cpp.obj CMakeFiles/proyectofinalPOO.dir/Criatura.cpp.obj CMakeFiles/proyectofinalPOO.dir/Raiz.cpp.obj CMakeFiles/proyectofinalPOO.dir/Centella.cpp.obj CMakeFiles/proyectofinalPOO.dir/Metamorfita.cpp.obj CMakeFiles/proyectofinalPOO.dir/Albo.cpp.obj
+build proyectofinalPOO.exe: CXX_EXECUTABLE_LINKER__proyectofinalPOO_Debug CMakeFiles/proyectofinalPOO.dir/main.cpp.obj CMakeFiles/proyectofinalPOO.dir/Entorno.cpp.obj CMakeFiles/proyectofinalPOO.dir/Criatura.cpp.obj CMakeFiles/proyectofinalPOO.dir/Raiz.cpp.obj CMakeFiles/proyectofinalPOO.dir/Centella.cpp.obj CMakeFiles/proyectofinalPOO.dir/Metamorfita.cpp.obj CMakeFiles/proyectofinalPOO.dir/Albo.cpp.obj CMakeFiles/proyectofinalPOO.dir/Mapa.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\proyectofinalPOO.dir

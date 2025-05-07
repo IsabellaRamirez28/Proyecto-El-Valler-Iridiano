@@ -17,6 +17,23 @@ public:
     int getPoderDeReproduccion() const {
         return poderDeReproduccion;
     }
+    void recibirAtaque(const int &dano) override {
+        if (energia > 0) {
+            energia -= dano;
+            if (energia < 0) {
+                energia = 0;
+            }
+            cout << energia << endl;
+        }
+    }
+    json toJson() const override {
+        return json{{"nombre", nombre},
+        {"reino", reino},
+        {"energía", energia},
+        {"posicion X", posicionX},
+        {"posicion Y", posicionY},
+        {"poder de reproduccion", poderDeReproduccion}};
+    }
 
 private:
     int poderDeReproduccion;

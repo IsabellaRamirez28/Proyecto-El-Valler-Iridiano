@@ -53,6 +53,7 @@ int main() {
                         cout << "INGRESA EL ATACANTE, VICTIMA Y FUERZA DE ATAQUE < 100: ";
                         cin >> atacante >> victima >> fuerzaAtaque;
                         entorno.atacaCriatura(atacante, victima, fuerzaAtaque);
+                        entorno.mostrarCriaturas();
                     }
                 }
                 break;

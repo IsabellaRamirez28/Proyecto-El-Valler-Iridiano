@@ -15,4 +15,6 @@ add_executable(proyectofinalPOO main.cpp
         Metamorfita.cpp
         Metamorfita.h
         Albo.cpp
-        Albo.h)
+        Albo.h
+        Mapa.cpp
+        Mapa.h)

@@ -9,28 +9,32 @@
 #include "json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 class Criatura {
 public:
-    Criatura(const string &nombre, const string &reino, int energia, int posicion_x, int posicion_y)
+    Criatura(const string &nombre, const string &reino, int energia, pair<int, int> pos)
         : nombre(nombre),
           reino(reino),
           energia(energia),
-          posicionX(posicion_x),
-          posicionY(posicion_y) {
-    }
+          posicion(pos) {}
     string getNombre() {
         return nombre;
+    }
+    string getReino() {
+        return reino;
     }
     int getEnergia() {
         return energia;
     }
-    pair<int, int> getPosicion() {
-        return make_pair(posicionX, posicionY);
+    pair<int, int> getPosicion() const {
+        return posicion;
     }
-    int recibirAtaque () {
+    void setPosicion(pair<int, int> nuevaPos) {
+        posicion = nuevaPos;
+    }
+    virtual void recibirAtaque (const int &dano) = 0;
 
-    }
     int moverse () {
 
     }
@@ -40,13 +44,19 @@ public:
     int mutar () {
 
     }
+    virtual json toJson() const {
+        return json{{"nombre", nombre},
+        {"reino", reino},
+        {"energía", energia},
+        {"posicion X", posicionX},
+        {"posicion Y", posicionY}};
+    }
 
-private:
+protected:
     string nombre;
     string reino;
     int energia;
-    int posicionX;
-    int posicionY;
+    pair<int, int> posicion;
 
 };
 

@@ -16,6 +16,95 @@ Valle Iridiano es un proyecto de simulación en C++ que representa un ecosistema
 - Albo: Híbrido entre Centella y Metamorfita con capacidad de vuelo
 - Raiz: Criatura que puede reproducirse.
 - Mapa: El mapa se presenta en la consola, indicando los diferentes terrenos y las criaturas presentes.
+
+## Diagramas UML
+
+```mermaid
+classDiagram
+    class Criatura {
+        - nombre: string
+        - reino: string
+        - energia: int
+        - posicionX: int
+        - posicionY: int
+        + getNombre(): string
+        + getEnergia(): int
+        + getPosicion(): pair<int, int>
+        + recibirAtaque()
+        + moverse()
+        + recibirEnergia()
+        + mutar()
+    }
+    
+    class Centella {
+        - poderDeAtaque: int
+        + getPoderDeAtaque(): int
+        + recibirAtaque(danoo: int)
+        + toJason(): json
+    }
+    
+    class Metamorfita {
+       - defensas: int
+        + getDefensas(): int
+        + recibirAtaque(dano: int)
+        + toJson(): json
+    }
+    
+    class albo {
+       - poderVolador: int
+        + getPoderVolador(): int
+        + recibirAtaque(dano: int)
+        + toJson(): json
+    }
+    
+    class Raiz {
+         - poderDeReproduccion: int
+        + getPoderDeReproduccion(): int
+        + recibirAtaque(dano: int)
+        + toJson(): json
+    }
+ 
+    class Mapa {
+        - int x
+        - int y
+        - vector<Criatura*> criaturas
+        + Mapa(int x, int y)
+        + int getX() const
+        + int getY() const
+        + void agregarCriatura(Criatura* criatura)
+        + void eliminarCriatura(Criatura* criatura)
+        + const vector<Criatura*>& getCriaturas() const
+    }
+    class Entorno{
+        - string nombreEntorno
+    - int filas
+    - int columnas
+    - int energia
+    - vector<Criatura*> criaturas
+    - vector<vector<Mapa>> mapa
+    + Entorno(string nombre_entorno, int filas, int columnas)
+    + string getNombreEntorno()
+    + void mostrarmapa() const
+    + void moverCriaturas()
+    + pair<int, int> generarPosicionAleatoria()
+    + void agregarCriaturaRaiz(string, string)
+    + void agregarCriaturaCentella(string, string)
+    + void agregarCriaturaMetamorfita(string, string)
+    + void agregarCriaturaAlbo(string, string)
+    + void guardarDatos(string)
+    + void atacaCriatura(string, string, int)
+    + void mostrarCriaturas()
+}
+Entorno --> "0..*" Criatura
+Entorno --> "1" Mapa : contiene (matriz)
+Mapa --> "0..*" Criatura
+Albo --|> Criatura
+Centella --|> Criatura
+Raiz --|> Criatura
+Metamorfita --|> Criatura
+        
+    
+```
     
 ## 🗂️ Estructura del código fuente:
 ## 👥 Créditos y roles del equipo:
